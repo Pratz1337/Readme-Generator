@@ -17,46 +17,42 @@ class RepositoryAnalyzer:
     def __init__(self, api_key: str):
         """Initialize with Groq API key"""
         self.client = Groq(api_key=api_key)
-        # Supported file extensions for text/code/config files (extensive list)
+        # Include as many common programming, scripting, markup, and config languages as possible
         self.supported_extensions = {
             # Programming languages
-            '.py', '.pyw', '.ipynb', '.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs',
-            '.java', '.kt', '.kts', '.scala', '.groovy', '.rb', '.php', '.pl', '.pm', '.pm6',
-            '.c', '.h', '.cpp', '.cc', '.cxx', '.c++', '.hpp', '.hh', '.hxx', '.h++',
-            '.cs', '.fs', '.fsx', '.fsi', '.vb', '.vbs', '.swift', '.go', '.rs', '.dart',
-            '.m', '.mm', '.r', '.jl', '.lua', '.sh', '.bash', '.zsh', '.fish', '.bat', '.cmd', '.ps1',
-            '.asm', '.s', '.S', '.v', '.sv', '.vhd', '.vhdl', '.ada', '.d', '.nim', '.ml', '.mli',
-            '.clj', '.cljs', '.cljc', '.edn', '.groovy', '.kt', '.kts', '.erl', '.hrl', '.ex', '.exs',
-            '.coffee', '.litcoffee', '.scm', '.ss', '.lisp', '.el', '.rkt', '.raku', '.cr', '.pony',
-            '.f', '.f90', '.f95', '.f03', '.f08', '.for', '.ftn', '.f77', '.m4', '.awk', '.ps1', '.psm1',
-            # Web/markup
-            '.html', '.htm', '.xhtml', '.shtml', '.xml', '.xsd', '.xsl', '.xslt', '.svg', '.rss', '.atom',
-            '.css', '.scss', '.sass', '.less', '.styl', '.vue', '.ejs', '.hbs', '.mustache', '.jinja', '.twig',
+            '.py', '.js', '.ts', '.java', '.cpp', '.c', '.h', '.hpp', '.cs', '.php', '.rb', '.go', '.rs', '.swift', '.kt', '.kts',
+            '.scala', '.r', '.m', '.jl', '.dart', '.pl', '.pm', '.lua', '.groovy', '.vb', '.vbs', '.fs', '.fsi', '.fsx', '.f90', '.f95',
+            '.f', '.f03', '.f08', '.asm', '.s', '.d', '.nim', '.clj', '.cljs', '.cljc', '.edn', '.erl', '.hrl', '.ex', '.exs', '.elm',
+            '.ml', '.mli', '.mll', '.mly', '.hs', '.lhs', '.purs', '.ada', '.adb', '.ads', '.v', '.sv', '.vhd', '.vhdl', '.cob', '.cbl',
+            '.lisp', '.lsp', '.scm', '.rkt', '.ss', '.awk', '.ps1', '.bat', '.cmd', '.sh', '.zsh', '.fish', '.tcsh', '.csh', '.bsh',
+            '.tcl', '.exp', '.expect', '.bas', '.pas', '.pp', '.dpr', '.go', '.rs', '.cr', '.nim', '.vala', '.hx', '.hxsl', '.hxproj',
+            '.m', '.mm', '.objc', '.objcpp', '.cu', '.cuh', '.cl', '.opencl', '.glsl', '.vert', '.frag', '.comp', '.tesc', '.tese',
+            '.geom', '.wgsl', '.metal', '.asm', '.s', '.S', '.d', '.vala', '.vapi', '.nim', '.odin', '.zig', '.pony', '.factor',
+            # Web/markup/template
+            '.html', '.htm', '.xhtml', '.xml', '.svg', '.xsd', '.xslt', '.jsp', '.asp', '.aspx', '.ejs', '.hbs', '.handlebars', '.mustache',
+            '.twig', '.liquid', '.jade', '.pug', '.haml', '.slim', '.mjml', '.md', '.markdown', '.rst', '.adoc', '.asciidoc',
+            '.tex', '.latex', '.sty', '.cls', '.bib', '.rmd', '.ipynb',
+            # Stylesheets
+            '.css', '.scss', '.sass', '.less', '.styl', '.pcss', '.sss',
             # Data/config
-            '.json', '.jsonc', '.json5', '.yaml', '.yml', '.toml', '.ini', '.cfg', '.conf', '.env', '.rc',
-            '.properties', '.prop', '.prefs', '.plist', '.config', '.tsconfig', '.babelrc', '.editorconfig',
-            '.dockerignore', '.npmignore', '.gitattributes', '.gitmodules', '.gitconfig', '.npmrc', '.yarnrc',
-            '.lock', '.requirements', '.gradle', '.maven', '.pom', '.sbt', '.gemspec', '.gemfile', '.cargo',
-            '.cargo.toml', '.cargo.lock', '.go', '.go.mod', '.go.sum', '.mod', '.sum', '.composer.json', '.composer.lock',
-            '.bower.json', '.bowerrc', '.tslint', '.eslint', '.prettierrc', '.stylelintrc', '.pylintrc', '.flake8',
-            '.coveragerc', '.travis.yml', '.circleci', '.appveyor.yml', '.azure-pipelines.yml', '.github', '.gitlab-ci.yml',
-            '.editorconfig', '.dependabot.yml', '.renovate.json', '.vscode', '.idea', '.vs', '.settings', '.launch',
-            # Documentation
-            '.md', '.markdown', '.mdown', '.mkd', '.rst', '.adoc', '.asciidoc', '.txt', '.textile', '.rdoc', '.pod',
-            '.org', '.creole', '.mediawiki', '.wiki', '.tex', '.latex', '.bib', '.rmd', '.ipynb',
-            # Scripts/build
-            '.makefile', '.mk', '.mak', '.cmake', '.gradle', '.bat', '.cmd', '.ps1', '.sh', '.bash', '.zsh', '.fish',
-            '.dockerfile', '.docker-compose.yml', '.compose', '.build', '.ninja', '.bazel', '.bzl', '.buck', '.justfile',
+            '.json', '.jsonc', '.json5', '.yaml', '.yml', '.toml', '.ini', '.cfg', '.conf', '.env', '.properties', '.prop', '.prefs',
+            '.plist', '.rc', '.config', '.tsv', '.csv', '.psv', '.db', '.sqlite', '.db3', '.sql', '.dbf',
+            # Build/package
+            '.gradle', '.maven', '.pom', '.sbt', '.cmake', '.make', '.mak', '.mk', '.ninja', '.bazel', '.bzl', '.buck', '.build',
+            '.pro', '.pri', '.qbs', '.xcconfig', '.xcworkspace', '.xcodeproj', '.xcsettings', '.xcuserstate', '.xcuserdata',
+            '.nuspec', '.csproj', '.vbproj', '.fsproj', '.sln', '.vcxproj', '.vcproj', '.props', '.targets', '.gyp', '.gypi',
+            '.am', '.ac', '.m4', '.autogen', '.configure', '.spec', '.ebuild', '.exs', '.mix', '.rebar', '.rebar.config',
+            '.cargo', '.cargo.toml', '.cargo.lock', '.go.mod', '.go.sum', '.composer.json', '.composer.lock', '.package.json',
+            '.package-lock.json', '.yarn.lock', '.pnpm-lock.yaml', '.requirements.txt', '.Pipfile', '.Pipfile.lock', '.pyproject.toml',
+            '.setup.py', '.setup.cfg', '.tox', '.flake8', '.mypy.ini', '.pytest.ini', '.coveragerc', '.babelrc', '.eslintrc',
+            '.eslintignore', '.prettierrc', '.prettierignore', '.stylelintrc', '.stylelintignore', '.editorconfig', '.gitattributes',
+            '.gitignore', '.dockerfile', '.docker-compose.yml', '.docker-compose.yaml', '.vagrantfile', '.Procfile', '.heroku.yml',
+            '.appveyor.yml', '.travis.yml', '.circleci', '.github', '.gitlab-ci.yml', '.bitbucket-pipelines.yml', '.azure-pipelines.yml',
+            '.jenkinsfile', '.buildkite.yml', '.codeclimate.yml', '.dependabot.yml', '.renovate.json', '.sonarcloud.properties',
             # Misc
-            '.log', '.out', '.err', '.lst', '.list', '.csv', '.tsv', '.psv', '.dat', '.data', '.db', '.sql', '.sqlite',
-            '.dbml', '.dump', '.schema', '.parquet', '.orc', '.avro', '.feather', '.h5', '.hdf5',
-            # Templates
-            '.tpl', '.tmpl', '.template', '.jinja', '.j2', '.mustache', '.hbs', '.ejs', '.liquid', '.njk', '.nunjucks',
-            # Others
-            '.license', '.licence', '.copying', '.changelog', '.changes', '.news', '.todo', '.credits', '.authors',
-            '.readme', '.readme.md', '.readme.txt', '.manifest', '.about', '.version', '.releasenotes', '.release',
+            '.txt', '.log', '.out', '.err', '.lst', '.list', '.changelog', '.changes', '.news', '.todo', '.tasks', '.license', '.licence',
+            '.copying', '.notice', '.authors', '.contributors', '.credits', '.readme', '.readme.md', '.readme.txt', '.readme.rst'
         }
-        
     def is_text_file(self, file_path: Path) -> bool:
         """Check if file is a text file that should be analyzed"""
         if file_path.suffix.lower() in self.supported_extensions:
@@ -247,7 +243,7 @@ Respond with ONLY the JSON object, no additional text:
                         "content": prompt
                     }
                 ],
-                model="llama-3.1-8b-instant",
+                model="meta-llama/llama-guard-4-12b",
                 max_tokens=1000,
                 temperature=0.3
             )
@@ -328,23 +324,33 @@ File Structure (sample):
         
         # Add sample code snippets from key files
         context += "\nKey File Contents (snippets):\n"
-        important_files = [f for f in file_list if any(name in f.lower() for name in 
-                          ['main', 'index', 'app', 'server', '__init__', 'setup'])][:5]
+        
+        # Find important files: entry points, config, or files mentioning API keys/env vars
+        important_files = []
+        for f_path_str in file_list:
+            if any(name in f_path_str.lower() for name in ['main', 'index', 'app', 'server', '__init__', 'setup', 'config']):
+                important_files.append(f_path_str)
+            else:
+                content_sample = analysis['files'][f_path_str]['content'][:1000].lower()
+                if any(keyword in content_sample for keyword in ['argparse', 'os.getenv', 'api_key', 'api key', 'secret_key']):
+                    important_files.append(f_path_str)
+        
+        important_files = list(dict.fromkeys(important_files))[:5] # Get unique files, limit to 5
         
         for file_path in important_files:
             if file_path in analysis['files']:
                 content = analysis['files'][file_path]['content']
-                context += f"\n--- {file_path} ---\n{content[:500]}...\n"
+                context += f"\n--- {file_path} ---\n{content[:1000]}...\n"
         
         prompt = f"""
 Based on the following repository analysis, generate a comprehensive README.md file that includes:
-NOTE IF U DONT FIND INFO ON ANY OF THE FOLLOWING SKIP THAT SECTION ALWAYS FOLLOW THIS RULE.
+
 1. **Project Title and Description**: Clear, engaging description of what the project does
 2. **Features**: Key features and capabilities
 3. **Technology Stack**: Languages, frameworks, and tools used
-4. **Prerequisites**: System requirements and dependencies 
+4. **Prerequisites**: System requirements, dependencies, and **any API keys or environment variables needed**. Look for clues like `os.getenv`, `argparse`, or variable names like `API_KEY`.
 5. **Installation**: Step-by-step setup instructions IF ANY REQUIRED
-6. **Usage**: How to run and use the project with examples
+6. **Usage**: How to run and use the project with examples. Include command-line arguments if found.
 7. **Project Structure**: Overview of the codebase organization
 8. **Configuration**: Any environment variables or config files needed
 9. **API Documentation**: If applicable, document key endpoints or functions IF ANY PRESENT
@@ -353,6 +359,7 @@ NOTE IF U DONT FIND INFO ON ANY OF THE FOLLOWING SKIP THAT SECTION ALWAYS FOLLOW
 12. **Contact**: Author/maintainer information IF ALREADY MENTIONED
 
 Make the README professional, well-formatted with proper markdown, and comprehensive enough that someone can understand and set up the project from scratch.
+Pay close attention to the code snippets to find requirements like API keys or specific commands to run the project.
 
 Repository Analysis:
 {context}
