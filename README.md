@@ -1,52 +1,88 @@
-**Readme-Generator README**
-========================
-### Project Title and Description
-Readme-Generator is an open-source project that utilizes the Groq framework to provide a seamless and efficient experience for users. Funfact this Readme is Generated using this tool ;)
 
-### Features
-- **Groq Integration**: Seamlessly integrate with the Groq framework for efficient operations.
-- **Flexibility**: Easily adapt to various use cases and requirements.
-- **Scalability**: Designed to handle large datasets and high traffic.
 
-### Technology Stack
-- **Language**: Python (.py)
-- **Framework**: Groq
-- **Other Tools**: No additional dependencies or tools required.
+**Repository README Generator using Groq API**
+=====================================================
 
-### Prerequisites
-- **System Requirements**: Python 3.8 or later, Groq framework installed.
-- **Dependencies**: No external dependencies required.
+Analyzes any codebase and generates comprehensive README documentation.
 
-### Installation
-To set up the LOL project, follow these steps:
+**Features**
+------------
 
-1. Clone the repository using `git clone https://github.com/pratz1337/Readme-Generator.git`.
-2. Navigate to the project directory using `cd Readme-Generator`.
-3. Install the required dependencies by running `pip install groq`.
-4. Configure any environment variables or config files (see **Configuration** section).
+* Analyze codebase and generate comprehensive README documentation
+* Supports multiple programming languages and file extensions
+* Integrates with the Groq API for code analysis
 
-### Usage
-To run the LOL project, execute the following command:
+**Technology Stack**
+-------------------
+
+* Python 3.x
+* Groq API for code analysis
+* `argparse` for command-line argument parsing
+* `pathlib` for file system operations
+* `mimetypes` for file type detection
+
+**Prerequisites**
+----------------
+
+* Python 3.x installed on your system
+* Groq API key (obtain from [Groq API website](https://groq.com/))
+* `argparse` and `pathlib` libraries available in your Python environment
+
+**Installation**
+---------------
+
+To use this repository, simply clone the repository and run the `readme_generator.py` script using Python 3.x:
+
 ```bash
-python readme_generator.py
+git clone https://github.com/your-username/ReadmeGenerator.git
+cd ReadmeGenerator
+python readme_generator.py --api-key YOUR_API_KEY --input-path /path/to/your/codebase
 ```
-This will launch the project and make it available for use.
 
-### Project Structure
-The project consists of a single Python file, `readme_generator.py`, which contains the entire codebase. The file structure is as follows:
-```markdown
-Readme-Generator/
-|---- readme_generator.py (448 lines)
+Replace `YOUR_API_KEY` with your actual Groq API key and `/path/to/your/codebase` with the path to the codebase you want to analyze.
+
+**Usage**
+---------
+
+To run the script, use the following command:
+
+```bash
+python readme_generator.py --help
 ```
-### Configuration
-No configuration files or environment variables are required for this project. However, you can customize the project settings by modifying the `readme_generator.py` file.
 
-### API Documentation
-No API endpoints or functions are present in this project.
+This will display the available command-line arguments:
 
-### Contributing
-Contributions are welcome! If you'd like to contribute to the LOL project, please follow these guidelines:
+```bash
+usage: readme_generator.py [-h] --api-key API_KEY --input-path INPUT_PATH
 
-1. Fork the repository and create a new branch for your changes.
-2. Make your changes and commit them with a clear message.
-3. Open a pull request to merge your changes into the main branch.
+required arguments:
+  --api-key API_KEY     Groq API key
+  --input-path INPUT_PATH  Path to the codebase to analyze
+
+optional arguments:
+  -h, --help            show this help message and exit
+```
+
+**Project Structure**
+---------------------
+
+The project consists of two files:
+
+* `README.md`: this file
+* `readme_generator.py`: the Python script that generates README documentation
+
+**Configuration**
+----------------
+
+No additional configuration files are required. However, you will need to provide your Groq API key as a command-line argument.
+
+**API Documentation**
+--------------------
+
+The Groq API documentation can be found on the [Groq API website](https://groq.com/).
+
+**Contributing**
+---------------
+
+Contributions are welcome! If you want to contribute to this project, please fork the repository and submit a pull request.
+
